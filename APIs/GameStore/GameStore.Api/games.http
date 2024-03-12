@@ -9,10 +9,10 @@ POST http://localhost:5134/games
 Content-Type: application/json
 
 {
-    "name": "Minecraft",
-    "genre": "Kids and Family",
-    "price": 19.99,
-    "releaseDate": "2011-11-18"
+    "name": "Street Fighter II",
+    "genreId": 1,
+    "price": 9.99,
+    "releaseDate": "1991-02-01"
 }
 
 ###
@@ -23,7 +23,7 @@ Content-Type: application/json
     "id": 1,
     "name": "Street Fighter II Turbo",
     "genre": "Fighting",
-    "price": 1009.99,
+    "price": 19.99,
     "releaseDate": "1992-07-15"
 }
 

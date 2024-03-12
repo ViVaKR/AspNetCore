@@ -7,9 +7,7 @@ public record class CreateGameDto(
     [StringLength(100)]
     string Name,
 
-    [Required(ErrorMessage = "Genre Field is required!!")]
-    [StringLength(50)]
-    string Genre,
+    int GenreId,
 
     [Range(1,100)]
     decimal Price,
