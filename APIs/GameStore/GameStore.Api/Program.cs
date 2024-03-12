@@ -11,9 +11,10 @@ builder.Services.AddSqlite<GameStoreContext>(connString);
 var app = builder.Build();
 
 app.MapGamesEndpoints();
+app.MapGenresEndpoints();
 
 // 데이터 베이스 자동 마이그레이션.
-app.MigrateDb();
+await app.MigrateDbAsync();
 
 app.Run();
 
@@ -124,4 +125,8 @@ MyLogger ---> (AddTransient<MyLooger>()) ---> IServiveProvider ---> MyLogger (Re
 
 ! AddSingleton : 응용프로그램이 종료될 때 까지. (acros the application lifetime)
 
+! Performing asynchronous work
+    >- 단순화된 코드: 비동기 코드는 작업 개체와 비동기 및 대기 키워드를 통해 쓰기 쉽습니다.
+    >- 향상된 확장성: 애플리케이션이 더 많은 요청과 사용자를 동시에 처리할 수 있습니다.
+    >- 향상된 성능: 호출자간의 차단을 피하고 다른 작업을 수행할 수 있습니다.
 */

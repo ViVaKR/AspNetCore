@@ -2,7 +2,7 @@
 
 namespace GameStore.Api.Dtos;
 
-public record class GameDto(int Id,
+public record class GameSummaryDto(int Id,
     [Required(ErrorMessage =" Name is Required!!")]
     [StringLength(100)]
     string Name,
@@ -11,7 +11,7 @@ public record class GameDto(int Id,
     [StringLength(50)]
     string Genre,
 
-    [Range(1,100)]
+    [Range(1,100,ErrorMessage ="Price value must be between 1 and 100")]
     decimal Price,
 
     [Required]
