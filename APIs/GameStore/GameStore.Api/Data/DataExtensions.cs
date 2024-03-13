@@ -10,4 +10,13 @@ public static class DataExtensions
         var dbContext = scope.ServiceProvider.GetRequiredService<GameStoreContext>();
         await dbContext.Database.MigrateAsync();
     }
+
+    public static async Task InitializeDbAsync(this IServiceProvider serviceProvider)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<GameStoreContext>();
+        await dbContext.Database.MigrateAsync();
+
+        var logger = serviceProvider.GetRequiredService<ILoggerFactory>();
+    }
 }

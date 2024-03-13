@@ -1,24 +1,111 @@
+using System.Security.Claims;
 using GameStore.Api.Data;
 using GameStore.Api.Endpoints;
 
+Dictionary<string, List<string>> gamesMap = new()
+{
+    {"player1", ["Street Fighter II", "Minecraft"]},
+    {"player2", ["Forza Horizon 5", "Final Fantasy XIV", "FIFA 23"]}
+};
+
+Dictionary<string, List<string>> subscriptionMap = new()
+{
+    {"silver", ["Street Fighter II", "Minecraft"]},
+    {"gold", ["Forza Horizon 5", "Minecraft", "Forza Horizon 5", "Final Fantasy XIV", "FIFA 23"]}
+};
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication().AddJwtBearer();
+
+/*
+    !(create token examples, cli in terminal)
+    --> $ dotnet user-jwts create
+    --> $ dotnet user-jwts create --role "admin"
+    --> $ dotnet user-jwts create --role "player"
+    --> $ dotnet user-jwts create --role "player" -n player1
+    --> $ dotnet user-jwts create --role "player" -n player1 --claim "subscription=gold"
+
+    --> $ dotnet user-jwts print <ID>
+    --> viewer --> browser --> url (https://jwt.ms)--> copy & paste (token)
+ */
+
+builder.Services.AddAuthorization();
+
 var connString = builder.Configuration.GetConnectionString("GameStore");
 
-// Dependency Injection
 builder.Services.AddSqlite<GameStoreContext>(connString);
+
 //? builder.Services.AddScoped<GameStoreContext>
 
 var app = builder.Build();
 
+app.Logger.LogInformation(5, "The database is ready!");
+
+//? token tester
+app.MapGet("/playergames", () => gamesMap).RequireAuthorization(policy =>
+{
+    // 엑세스 제어
+    policy.RequireRole("admin");
+});
+
+app.MapGet("/mygames", (ClaimsPrincipal user) =>
+{
+    var hasClaim = user.HasClaim(claim => claim.Type == "subscription");
+
+    if (hasClaim)
+    {
+        var subs = user.FindFirstValue("subscription") ?? throw new Exception("Claim has no value!");
+
+        return Results.Ok(subscriptionMap[subs]);
+    }
+
+    ArgumentNullException.ThrowIfNull(user.Identity?.Name);
+    var username = user.Identity.Name;
+
+    if (!gamesMap.TryGetValue(username, out List<string>? value))
+        return Results.Empty;
+
+    return Results.Ok(value);
+
+}).RequireAuthorization(x =>
+{
+    x.RequireRole("player");
+});
+
 app.MapGamesEndpoints();
+
 app.MapGenresEndpoints();
 
-// 데이터 베이스 자동 마이그레이션.
 await app.MigrateDbAsync();
 
 app.Run();
 
-/*
+/* ====== Note ==============================================================
+
+! [ Authorization ]
+1. nuget package -> Microsoft.AspNetCore.Authentication.JwtBearer
+`dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.2`
+
+- `Jwt` -> Json Web Token
+
+--> Authentication : (신원확인)
+    * 로그인 등으로 인증하는 절차, 사람을 확인하는 절차
+    *- 지식기반 : 패스워드, 이름, 주민번호, 사번 등..
+    *- 소유기반 : 인증서, SMS 인증, OTP
+    *- 속성기반 : 지문, 홍채, 정맥, 얼굴 등등 ..
+        ** One Factor, Two Factor,
+
+--> Authorization : (엑세스권한 확인)
+    * 권한 부여, 원하는 곳에 접근할 수 있고 정보를 취득할 수 있도록 허용하는 절차
+
+--> Access Control : 접근 제어
+
+
+! [ REST Client ]
+-
+
+
 ! [ Nuget packages]
 1. MiniamlApis.Extensions
 2. Microsoft.EntityFrameworkCore.Sqlite
@@ -129,4 +216,56 @@ MyLogger ---> (AddTransient<MyLooger>()) ---> IServiveProvider ---> MyLogger (Re
     >- 단순화된 코드: 비동기 코드는 작업 개체와 비동기 및 대기 키워드를 통해 쓰기 쉽습니다.
     >- 향상된 확장성: 애플리케이션이 더 많은 요청과 사용자를 동시에 처리할 수 있습니다.
     >- 향상된 성능: 호출자간의 차단을 피하고 다른 작업을 수행할 수 있습니다.
+
+! Logging
+
+Application Code --> Logger (ILogger) <--(Register) --- Application Startup
+
+1. LogInformation ("Operation completed")
+2. LogWarning ("Something is not OK")
+3. LogError ("Something bad happened")
+
+Logging Providers ---> Console, Event Log (Windows Event Viewer), Event Source (Perfview), Seq, App Service
+
+! Token-Based Authentication
+
+- Authentication
+- Authorization
+
+- Included in the token
+    1. How to verify it
+    2. Where it came from
+    3. Whre it can be used
+    4. Who is authorized
+    5. What can be done with it
+    6. Much more
+
+User ---> Request authorization ---> Authorization Server
+User <------------------------------ (Access token)
+
+User ---> REST API request + Access token ---> Games API
+User <---------------------------------------- (Response)
+
+! Decoded Token example (https://jwt.ms)
+Header - Body - Signature
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}.{
+  "unique_name": "vivakr",
+  "sub": "vivakr",
+  "jti": "428c9787",
+  "aud": [
+    "http://localhost:12656",
+    "https://localhost:44377",
+    "http://localhost:5134",
+    "https://localhost:7257"
+  ],
+  "nbf": 1710233487,
+  "exp": 1718182287,
+  "iat": 1710233487,
+  "iss": "dotnet-user-jwts"
+}.[Signature]
+
 */
+
