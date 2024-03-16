@@ -2,7 +2,10 @@
 
 namespace GameStore.Api.Dtos;
 
-public record class GameSummaryDto(int Id,
+public record class GameSummaryDto(
+
+    int Id,
+
     [Required(ErrorMessage =" Name is Required!!")]
     [StringLength(100)]
     string Name,

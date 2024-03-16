@@ -16,6 +16,7 @@ Dictionary<string, List<string>> subscriptionMap = new()
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Jwt
 builder.Services.AddAuthentication().AddJwtBearer();
 
 /*
@@ -32,7 +33,7 @@ builder.Services.AddAuthentication().AddJwtBearer();
 
 builder.Services.AddAuthorization();
 
-var connString = builder.Configuration.GetConnectionString("GameStore");
+string? connString = builder.Configuration.GetConnectionString("GameStore");
 
 builder.Services.AddSqlite<GameStoreContext>(connString);
 
@@ -101,10 +102,7 @@ app.Run();
 
 --> Access Control : 접근 제어
 
-
 ! [ REST Client ]
--
-
 
 ! [ Nuget packages]
 1. MiniamlApis.Extensions
@@ -124,11 +122,10 @@ app.Run();
         Scaffold-DbContext
         Script-Migration
         Update-Database
-    -> $
+
 4. Migrations & Update
     --> $ dotnet ef migrations add InitialCreate --output-dir Data/Migrations
     --> $ dotnet ef database update
-
 
 ! [ Configuration System ]
 1. `IConfiguration` interface --> (appsettings.json, 'Connection string') --> REST API --> Database
@@ -202,7 +199,6 @@ MyLogger 의존성을 조롱하거나 찌그러뜨릴 수 없기 때문에 MySer
 public MyService(ILogger logger)
 {
     logger.LogThis("I am Ready!");
-
 }
 
 ! AddTransient
@@ -268,4 +264,3 @@ Header - Body - Signature
 }.[Signature]
 
 */
-

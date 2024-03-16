@@ -44,25 +44,40 @@
 
 ```
 
-* .NET: Generate Assets for Build and Debug
-* `dotnet dev-certs https --trust`
-* `dotnet run --project COM.ViVaKR.API --launch-profile https`
-* <https://localhost:7291/swagger>
+## HTTPS Start
+
+>- appsettings.json
+
+```json
+    "Kestrel": {
+        "Endpoints": {
+            "Https": {
+                "Url": "https://localhost:54321"
+            }
+        }
+    },
+    ...
+```
+
+- .NET: Generate Assets for Build and Debug
+- `dotnet dev-certs https --trust`
+- `dotnet run --project COM.ViVaKR.API --launch-profile https`
+- <https://localhost:7291/swagger>
 
 ## DTO
 
-* 과도한 게시 방지
-* 클라이언트에 표시되지 않아야 하는 속성을 숨기
-* 페이로드 크기를 줄이기 위해 일부 속성을 생략
-* 중첩된 개체를 포함하는 개체 그래프를 평면화
+- 과도한 게시 방지
+- 클라이언트에 표시되지 않아야 하는 속성을 숨기
+- 페이로드 크기를 줄이기 위해 일부 속성을 생략
+- 중첩된 개체를 포함하는 개체 그래프를 평면화
 
 ## Casing
 
-* Pascal casing : 첫글자와 중간 글자 대문자, ASP.NET Core API, (MyName, PhoneNumber)
-* Camel casing : 첫글자는 소문자 중간글자는 대문자 Angular , (myName, phoneNumber)
-* Snake casing : 모든 단어는 소문자 또는 대문자 단어는 '_' 언더바로 구분, (my_name, phone_number)
-* Kebab casing : 단어를 '-' 대시로 구분, (my-name, phone-number)
-* Hungurian Notation : 접두어에 자료형을 붙임, C, (strUserName, iUserAge)
+- Pascal casing : 첫글자와 중간 글자 대문자, ASP.NET Core API, (MyName, PhoneNumber)
+- Camel casing : 첫글자는 소문자 중간글자는 대문자 Angular , (myName, phoneNumber)
+- Snake casing : 모든 단어는 소문자 또는 대문자 단어는 '_' 언더바로 구분, (my_name, phone_number)
+- Kebab casing : 단어를 '-' 대시로 구분, (my-name, phone-number)
+- Hungurian Notation : 접두어에 자료형을 붙임, C, (strUserName, iUserAge)
 
 ## Create Database & User Login
 
@@ -93,7 +108,7 @@ GO
 
 USE master
 ALTER DATABASE ViVaKR SET RECOVERY FULL
-GO  
+GO
 
 ALTER DATABASE ViVaKR SET MULTI_USER
 GO
@@ -101,11 +116,11 @@ GO
 USE [master]
 GO
 
-CREATE LOGIN [ViVaKR] 
- WITH PASSWORD=N'비밀번호', 
- DEFAULT_DATABASE=[ViVaKR], 
- DEFAULT_LANGUAGE=[Korean], 
- CHECK_EXPIRATION=OFF, 
+CREATE LOGIN [ViVaKR]
+ WITH PASSWORD=N'비밀번호',
+ DEFAULT_DATABASE=[ViVaKR],
+ DEFAULT_LANGUAGE=[Korean],
+ CHECK_EXPIRATION=OFF,
  CHECK_POLICY=OFF
 GO
 
@@ -132,19 +147,19 @@ GO
 
 ## Web UI
 
-* Server Rendered
-  * MVC
-  * Razor Pages
-  * Client Rendered (SPA)
-  * `Blazor`
+- Server Rendered
+    - MVC
+    - Razor Pages
+    - Client Rendered (SPA)
+    - `Blazor`
 
 ## Backend Services
 
-* Microservies
-  * Web APIs
-  * SignalR
-  * gRPC
-  * Workers
+- Microservies
+    - Web APIs
+    - SignalR
+    - gRPC
+    - Workers
 
 ## What is Blazor?
 
@@ -161,9 +176,9 @@ SPA : Angular, React, Vue
 
 ## Razor Component
 
-* `.NET`
-* `WebAssembly`
-* `MyApp.dll`
-  * C# + HTML
-  * Component 2
-  * Component 3
+- `.NET`
+- `WebAssembly`
+- `MyApp.dll`
+    - C# + HTML
+    - Component 2
+    - Component 3
