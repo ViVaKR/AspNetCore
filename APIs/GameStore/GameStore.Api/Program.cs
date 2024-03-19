@@ -49,7 +49,7 @@ app.MapGet("/playergames", () => gamesMap).RequireAuthorization(policy =>
     // 엑세스 제어
     policy.RequireRole("admin");
 });
-
+Console.WriteLine()
 app.MapGet("/mygames", (ClaimsPrincipal user) =>
 {
     var hasClaim = user.HasClaim(claim => claim.Type == "subscription");
@@ -108,7 +108,7 @@ app.Run();
 1. MiniamlApis.Extensions
 2. Microsoft.EntityFrameworkCore.Sqlite
 3. ( Migration tool ) nuget search -> `dotnet-ef`
-    ?-> install -> $ dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+    ?-> $ dotnet add package Microsoft.EntityFrameworkCore.Sqlite
     ?-> $ dotnet tool install --global dotnet-ef
     ?-> $ dotnet add package Microsoft.EntityFrameworkCore.Design
     ?-> $ dotnet add package Microsoft.EntityFrameworkCore.Tools
