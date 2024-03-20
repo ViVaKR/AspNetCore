@@ -1,0 +1,65 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<PageTitle>Home</PageTitle>
+
+<div class="container-fluid vh-100">
+    <div class="row p-5 vh-60">
+        <div class="col-6">
+
+            <div class="form-floating mb-3">
+                @* 사용자 명 (클라이언트, 서버) *@
+                <input type="text"
+                       class="form-control"
+                       @bind="userInput"
+                       id="floatingInput"
+                       placeholder="이름">
+                <label for="floatingInput">이름</label>
+            </div>
+
+            <div class=" mb-3">
+                @* 메시지 (클라이어트, 서버) *@
+                <label for="messageBox">메시지</label>
+                <textarea class="form-control"
+                          @bind=messageInput
+                          placeholder="Leave a comment here"
+                          rows="8"
+                          id="messageBox">
+                </textarea>
+
+            </div>
+
+            <div>
+                @* 메시지 전송 버튼 *@
+                <button class="btn btn-success"
+                        @onclick="Send"
+                        disabled="@(!IsConnected)"> 전송
+                </button>
+            </div>
+
+        </div>
+
+        <div class="col-6 overflow-auto">
+            <ul class="list-group list-group-flush" id="messagesList">
+                @foreach (var message in messages)
+                {
+                    <li class="list-group-item">
+                        <textarea class="form-control overflow-auto" rows="5"> @message </textarea>
+                    </li>
+                }
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+@* Lorem ipsum dolor sit amet,
+consectetur adipisicing elit.
+Aliquid porro ad voluptatibus,
+velit, autem dignissimos blanditiis
+officiis vero maxime,
+ullam praesentium magni. Reiciendis quis nulla,
+aliquid obcaecati deleniti impedit vitae. *@
