@@ -28,7 +28,7 @@ namespace VivChat.Components.Pages
 
             hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
             {
-                var encodedMsg = $"{user}: {DateTime.Now:u}\n{message}";
+                var encodedMsg = $"{user}: {DateTime.Now:t}\n{message}";
                 messages.Add(encodedMsg);
                 InvokeAsync(StateHasChanged);
             });
