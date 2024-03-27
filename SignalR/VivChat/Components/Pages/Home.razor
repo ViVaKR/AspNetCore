@@ -54,53 +54,6 @@
         </div>
 
     </div>
-
-    <div class="row">
-        <div class="col">
-
-            @{
-                int total = 7;
-                var outsideTemp = 88;
-            }
-
-            <p>The value of your account is: @total</p>
-
-
-            @{
-                var myMessage = "Hello World";
-                var weatherMessage = $"{DateTime.Now} is {outsideTemp};";
-            }
-
-            <p>The value of myMessage is: @myMessage</p>
-            <p>The Temp = @weatherMessage</p>
-            @{
-                var tf = 2024 % DateTime.Now.Year;
-
-                if (tf == 1)
-                {
-                    <h1>Hello</h1>
-                }
-                else
-                {
-                    <h2>World</h2>
-                }
-            }
-            @if (tf == 0)
-            {
-                @: The time is
-                <br /> @DateTime.Now
-                <br />
-                @DateTime.Now @: is the <em>current</em> time.
-            }
-
-            @{
-                var mystr = @"C:\MyFolder\";
-                var myQuote = @"The person said: ""Hello, today is Monday""";
-            }
-            <p>@myQuote</p>
-            <p>The path is: @mystr</p>
-        </div>
-    </div>
 </div>
 
 @* Lorem ipsum dolor sit amet,

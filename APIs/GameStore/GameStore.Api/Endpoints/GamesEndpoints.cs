@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Endpoints;
 
+/// <summary>
+/// Game Endpoints
+/// </summary>
 public static class GamesEndpoints
 {
     public const string GetGameEndpointName = "GetGame";
@@ -18,7 +21,7 @@ public static class GamesEndpoints
 
         //! GET /games
         //? DI, Async
-        group.MapGet("/", async (GameStoreContext db) => await db.Games.Include(x => x.Genre).Select(x => x.ToGameSummaryDto()).AsNoTracking().ToListAsync()); // 자원관리 중요.
+        group.MapGet("/", async (GameStoreContext db) => await db.Games.Include(x => x.Genre).Select(x => x.ToGameSummaryDto()).AsNoTracking().ToListAsync()); // 읽기전용에 -> AsNotTracking(), 자원관리
 
         //! GET /games/1
         //? DI, Async

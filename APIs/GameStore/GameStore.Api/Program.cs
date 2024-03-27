@@ -36,7 +36,6 @@ builder.Services.AddAuthorization();
 string? connString = builder.Configuration.GetConnectionString("GameStore");
 
 builder.Services.AddSqlite<GameStoreContext>(connString);
-
 //? builder.Services.AddScoped<GameStoreContext>
 
 var app = builder.Build();
@@ -49,7 +48,7 @@ app.MapGet("/playergames", () => gamesMap).RequireAuthorization(policy =>
     // 엑세스 제어
     policy.RequireRole("admin");
 });
-Console.WriteLine()
+
 app.MapGet("/mygames", (ClaimsPrincipal user) =>
 {
     var hasClaim = user.HasClaim(claim => claim.Type == "subscription");
