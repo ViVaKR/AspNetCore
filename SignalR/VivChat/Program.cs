@@ -34,3 +34,10 @@ app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 app.Run();
 
 //--> (final) edit -> Home.razor
+
+// app.UseEndpoints(endpoints =>
+// {
+//     endpoints.MapBlazorHub();
+//     endpoints.MapFallbackToPage("/_Host");
+//     endpoints.MapHub<BjChatHub>(BjChatHub.HubUrl);
+// });
