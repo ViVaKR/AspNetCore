@@ -1,0 +1,9 @@
+@Buddham.API_HostAddress = https://localhost:7183
+
+GET https://localhost:7183/weatherforecast/
+Accept: application/json
+
+###
+GET http://localhost:5033/weatherforecast/
+Accept: application/json
+###
