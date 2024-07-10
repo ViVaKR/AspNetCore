@@ -10,9 +10,10 @@ namespace Buddham.API.Controllers
     [ApiController]
     public class SutrasController(DataContext context) : ControllerBase
     {
-        private readonly DataContext _context = context;
+        private readonly DataContext _context = context; // DI
 
-        // GET: api/<SutrasController>
+        //* 목록 *//
+        //--> `GET` api/Sutras
         [HttpGet]
         public async Task<IEnumerable<Sutras>> Get()
         {
@@ -20,19 +21,18 @@ namespace Buddham.API.Controllers
             return Sutras;
         }
 
-        //--> GET api/<SutrasController>/5
+        //* 상세보기 *//
+        //--> `GET` api/SutrasC/5
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             var sutras = await _context.Sutras.FindAsync(id);
-
-            if (sutras == null)
-                return NotFound();
-
+            if (sutras is null) return NotFound();
             return Ok(sutras);
         }
 
-        //--> POST api/<SutrasController>, 데이터 추가
+        //* 추가 *//
+        //--> `POST` api/<SutrasController>, 데이터 추가
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Sutras sutras)
         {
@@ -46,16 +46,47 @@ namespace Buddham.API.Controllers
             return BadRequest("Failed to add data");
         }
 
+        //* 수정 *//
         // PUT api/<SutrasController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Sutras value)
         {
+            var sutras = await _context.Sutras.FindAsync(id);
+
+            if (sutras is null) return NotFound();
+
+            sutras.Id = value.Id;
+            sutras.Title = value.Title;
+            sutras.Subtitle = value.Subtitle;
+            sutras.Author = value.Author;
+            sutras.Translator = value.Translator;
+            sutras.Summary = value.Summary;
+            sutras.Sutra = value.Sutra;
+            sutras.OriginalText = value.OriginalText;
+            sutras.Annotation = value.Annotation;
+
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0) return Ok(sutras);
+
+            return BadRequest("Failed to update data");
         }
 
-        // DELETE api/<SutrasController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        //* 삭제 *//
+        //--> DELETE api/<SutrasController>/5
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            var sutras = await _context.Sutras.FindAsync(id); // 찾아서
+
+            if (sutras is null) return NotFound(); // 없으면
+
+            _context.Sutras.Remove(sutras); // 삭제
+            var result = await _context.SaveChangesAsync(); // 저장
+
+            if (result > 0) return Ok(sutras); // 성공
+
+            return BadRequest("Failed to delete data"); // 실패
         }
     }
 }
