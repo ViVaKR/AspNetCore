@@ -17,12 +17,29 @@ namespace Buddham.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<Sutras>> Get()
         {
-            var Sutras = await _context.Sutras.AsNoTracking().ToListAsync();
+            var Sutras = await _context.Sutras.OrderBy(x => x.Title).ToListAsync();
             return Sutras;
         }
 
-        //* 상세보기 *//
-        //--> `GET` api/SutrasC/5
+        //* 추가 *//
+        //--> `POST` api/Sutras, 데이터 추가
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Sutras sutras)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState); // 유효성 검사
+
+            await _context.Sutras.AddAsync(sutras); // 추가
+
+            var result = await _context.SaveChangesAsync(); // 저장
+
+            if (result > 0) return Ok(sutras); // 성공
+
+            return BadRequest("Failed to add data"); // 실패
+        }
+
+
+        //* 읽기 *//
+        //--> `GET` api/Sutras/5
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -31,23 +48,8 @@ namespace Buddham.API.Controllers
             return Ok(sutras);
         }
 
-        //* 추가 *//
-        //--> `POST` api/<SutrasController>, 데이터 추가
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Sutras sutras)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            await _context.Sutras.AddAsync(sutras);
-            var result = await _context.SaveChangesAsync();
-
-            if (result > 0)
-                return Ok(sutras);
-            return BadRequest("Failed to add data");
-        }
-
         //* 수정 *//
-        // PUT api/<SutrasController>/5
+        //--> PUT api/<SutrasController>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Sutras value)
         {
@@ -58,6 +60,7 @@ namespace Buddham.API.Controllers
             sutras.Id = value.Id;
             sutras.Title = value.Title;
             sutras.Subtitle = value.Subtitle;
+            sutras.HangulOrder = value.HangulOrder;
             sutras.Author = value.Author;
             sutras.Translator = value.Translator;
             sutras.Summary = value.Summary;

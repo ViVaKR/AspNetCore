@@ -6,6 +6,19 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Cors
+const string corsapp = "corsapp";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(corsapp, builder =>
+    {
+        builder.WithOrigins("*")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var sqlBuilder = new SqlConnectionStringBuilder
 {
     DataSource = builder.Configuration["DataSource"],
@@ -43,6 +56,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(corsapp);
 
 app.MapIdentityApi<IdentityUser>(); // Add this line (5), For Identity
 app.UseHttpsRedirection();

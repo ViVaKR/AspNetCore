@@ -10,7 +10,6 @@ public class Sutras
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-
     [Required]
     [MaxLength(100)]
     public string? Title { get; set; } = string.Empty;
@@ -37,4 +36,7 @@ public class Sutras
 
     [MaxLength]
     public string? Annotation { get; set; } = string.Empty;
+
+    [EnumDataType(typeof(HangulOrder))]
+    public HangulOrder HangulOrder { get; set; }
 }
