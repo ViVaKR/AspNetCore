@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buddham.API", "Buddham.API\Buddham.API.csproj", "{9BD90BF3-F3DC-491A-B80C-87E5D423FF44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buddham.SharedLib", "Buddham.SharedLib\Buddham.SharedLib.csproj", "{93EC1FB7-DCE1-4398-8FA5-899EFC7385EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9BD90BF3-F3DC-491A-B80C-87E5D423FF44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD90BF3-F3DC-491A-B80C-87E5D423FF44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD90BF3-F3DC-491A-B80C-87E5D423FF44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD90BF3-F3DC-491A-B80C-87E5D423FF44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93EC1FB7-DCE1-4398-8FA5-899EFC7385EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93EC1FB7-DCE1-4398-8FA5-899EFC7385EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93EC1FB7-DCE1-4398-8FA5-899EFC7385EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93EC1FB7-DCE1-4398-8FA5-899EFC7385EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
