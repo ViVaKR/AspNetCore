@@ -35,11 +35,6 @@ public class Code
     [Column("note")]
     public string? Note { get; set; }
 
-    [StringLength(450)]
-    [JsonPropertyName("appUserId")]
-    [Column("app_user_id")]
-    public string? AppUserId { get; set; }
-
     [Required]
     [JsonPropertyName("categoryId")]
     [Column("category_id")]

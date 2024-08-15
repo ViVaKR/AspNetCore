@@ -1,5 +1,3 @@
-
-
 namespace ViVaBM.API.Helpers;
 
 public static class AuthSettings

@@ -15,7 +15,7 @@ namespace ViVaBM.API.Controllers
         [HttpGet("list")]
         public async Task<IEnumerable<Code>> GetListAsync()
         {
-            var list = await _context.Codes.Include(x => x.Category).ToListAsync();
+            var list = await _context.Codes.ToListAsync();
             return list;
         }
 
@@ -30,12 +30,11 @@ namespace ViVaBM.API.Controllers
             return Ok(code);
         }
 
-        //--> POST api/code
-        [HttpPost]
+        //--> POST api/code/create
+        [HttpPost("create")]
         public async Task<IActionResult> Post([FromBody] Code value)
         {
             if (value == null) return BadRequest(new { message = "Invalid data" });
-
             await _context.Codes.AddAsync(value);
             var result = await _context.SaveChangesAsync();
             if (result == 0) return BadRequest(new { message = "Failed to create code" });
@@ -49,16 +48,7 @@ namespace ViVaBM.API.Controllers
             var code = await _context.Codes.FindAsync(id);
             if (code == null || id != value.Id) return NotFound(new { message = "Code not found" });
 
-            // code.Title = value.Title;
-            // code.Content = value.Content;
-            // code.Created = value.Created;
-            // code.Note = value.Note;
-            // code.AppUserId = value.AppUserId;
-            // code.CategoryId = value.CategoryId;
-            // _context.Codes.Update(code);
-
             _context.Entry(code).CurrentValues.SetValues(value);
-            // _context.Entry(code).State = EntityState.Modified;
 
             var result = await _context.SaveChangesAsync();
             if (result == 0) return BadRequest(new { message = "Failed to update code" });

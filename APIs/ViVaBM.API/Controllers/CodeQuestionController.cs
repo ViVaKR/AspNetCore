@@ -11,36 +11,65 @@ namespace ViVaBM.API.Controllers
     {
         private readonly VivabmDbContext _context = context;
 
-        // GET: api/code_question
+        //--> GET: api/code_question
         [HttpGet("list")]
         public async Task<IEnumerable<CodeQuestion>> Get()
         {
             return await _context.CodeQuestions.Include(x => x.Category).ToListAsync();
         }
 
-        // GET api/<CodeQuestionController>/5
+        //--> GET api/code_question/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<CodeQuestion>> Get(int id)
         {
-            return "value";
+            var codeQuestion = await _context.CodeQuestions.FindAsync(id);
+            if (codeQuestion == null)
+            {
+                return NotFound();
+            }
+            codeQuestion.Category = await _context.Categories.FindAsync(codeQuestion.CategoryId);
+            return Ok(codeQuestion);
         }
 
-        // POST api/<CodeQuestionController>
+        //--> POST api/<CodeQuestionController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] CodeQuestion data)
         {
+            if (data == null)
+            {
+                return BadRequest();
+            }
+            await _context.CodeQuestions.AddAsync(data);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "데이터 추가 완료" });
         }
 
-        // PUT api/<CodeQuestionController>/5
+        //--> PUT api/<CodeQuestionController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] CodeQuestion data)
         {
+            if (id != data.Id || id != data.Id)
+            {
+                return BadRequest();
+            }
+            // _context.Entry(data).State = EntityState.Modified;
+            _context.Entry(data).CurrentValues.SetValues(data);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "데이터 업데이트 완료" });
         }
 
-        // DELETE api/<CodeQuestionController>/5
+        //--> DELETE api/<CodeQuestionController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var codeQuestion = await _context.CodeQuestions.FindAsync(id);
+            if (codeQuestion == null)
+            {
+                return NotFound();
+            }
+            _context.CodeQuestions.Remove(codeQuestion);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "데이터 삭제 완료" });
         }
     }
 }
