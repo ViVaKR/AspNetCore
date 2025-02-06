@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiWriterOrKR", "WriterAPI\ApiWriterOrKR.csproj", "{5F6CEE0E-F53E-42CA-A7D1-808E0BFE417B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcWriterOrKr", "GrpcWriterOrKr\GrpcWriterOrKr.csproj", "{E31648B5-215B-4757-92EA-D5BC4C1B7ED4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcWriterOrKrClient", "GrpcWriterOrKrClient\GrpcWriterOrKrClient.csproj", "{D3F6F591-9E8F-4778-A8D2-A42240EFDE28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F6CEE0E-F53E-42CA-A7D1-808E0BFE417B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F6CEE0E-F53E-42CA-A7D1-808E0BFE417B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F6CEE0E-F53E-42CA-A7D1-808E0BFE417B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F6CEE0E-F53E-42CA-A7D1-808E0BFE417B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E31648B5-215B-4757-92EA-D5BC4C1B7ED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E31648B5-215B-4757-92EA-D5BC4C1B7ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E31648B5-215B-4757-92EA-D5BC4C1B7ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E31648B5-215B-4757-92EA-D5BC4C1B7ED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F6F591-9E8F-4778-A8D2-A42240EFDE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F6F591-9E8F-4778-A8D2-A42240EFDE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F6F591-9E8F-4778-A8D2-A42240EFDE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F6F591-9E8F-4778-A8D2-A42240EFDE28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

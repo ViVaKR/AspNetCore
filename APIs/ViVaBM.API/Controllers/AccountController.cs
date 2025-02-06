@@ -17,10 +17,7 @@ namespace ViVaBM.API.Controllers;
 //--> api/account
 [Route("api/[controller]")]
 [ApiController]
-public class AccountController(
-    UserManager<AppUser> userManager,
-
-) : ControllerBase
+public class AccountController(UserManager<AppUser> userManager) : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager = userManager;
 
@@ -318,33 +315,5 @@ public class AccountController(
             PhoneNumberConformed = user.PhoneNumberConfirmed,
             AccessFailedCount = user.AccessFailedCount
         });
-    }
-
-    // 비밀번호 분실 복구
-    //--> POST
-    //--> api/account/forgot-password
-    [HttpPost("forgot-password")]
-    public async Task<IActionResult> ForgotPassword([FromBody] ForgetPasswordDTO forgetPasswordDTO)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(new ResponseModel(ResponseCode.Error, "Invalid model", string.Empty));
-
-            var user = await _userManager.FindByEmailAsync(forgetPasswordDTO.Email);
-
-            if (user is null)
-                return BadRequest(new ResponseModel(ResponseCode.Error, "사용자를 찾을 수 없습니다.", forgetPasswordDTO.Email));
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-            var passwordResetLink = $"https://code.vivabm.com/reset-password?email={user.Email}&token={WebUtility.UrlEncode(token)}";
-
-            await _emailService.SendEmailAsync(user.Email, "비밀번호 재설정", $"<h1>비밀번호 재설정</h1><p>비밀번호 재설정을 위해 아래 링크를 클릭하세요.</p><a href='{passwordResetLink}'>비밀번호 재설정</a>");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new ResponseModel(ResponseCode.Error, ex.Message, string.Empty));
-        }
     }
 }

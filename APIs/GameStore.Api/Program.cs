@@ -85,7 +85,7 @@ app.Run();
 
 ! [ Authorization ]
 1. nuget package -> Microsoft.AspNetCore.Authentication.JwtBearer
-`dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.2`
+`dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer`
 
 - `Jwt` -> Json Web Token
 
