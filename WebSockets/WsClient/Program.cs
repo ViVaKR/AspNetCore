@@ -7,7 +7,10 @@ string? name = "Client";
 
 while (true)
 {
-    Console.WriteLine("Enter your name:");
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.Write("Enter your name: ");
+    Console.ResetColor();
+
     name = Console.ReadLine();
     if (!string.IsNullOrEmpty(name))
     {
@@ -23,7 +26,7 @@ var sendTask = Task.Run(async () =>
 {
     while (true)
     {
-        Console.WriteLine("Enter message:");
+        Console.WriteLine("\u001b[35mEnter message: \u001b[0m");
         var message = Console.ReadLine();
         if (string.IsNullOrEmpty(message) || message.Trim().ToLower().Equals("exit"))
         {
@@ -46,11 +49,11 @@ var receiveTask = Task.Run(async () =>
 
         if (result.MessageType == WebSocketMessageType.Close)
         {
-            Console.WriteLine("Received close message");
+            Console.WriteLine("\u001b[31mReceived close message\u001b[0m");
             break;
         }
         var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-        Console.WriteLine($"Received: {message}");
+        Console.WriteLine($"\u001b[35mReceived: \u001b[0m{message}");
     }
 });
 await Task.WhenAny(sendTask, receiveTask);
