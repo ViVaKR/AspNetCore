@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WsServer", "WsServer\WsServer.csproj", "{7608A278-2DDB-4129-82F4-5499BC24526B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WsClient", "WsClient\WsClient.csproj", "{DD97F4AE-2B66-4378-A5AD-860979A89849}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{7608A278-2DDB-4129-82F4-5499BC24526B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7608A278-2DDB-4129-82F4-5499BC24526B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7608A278-2DDB-4129-82F4-5499BC24526B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD97F4AE-2B66-4378-A5AD-860979A89849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD97F4AE-2B66-4378-A5AD-860979A89849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD97F4AE-2B66-4378-A5AD-860979A89849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD97F4AE-2B66-4378-A5AD-860979A89849}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
