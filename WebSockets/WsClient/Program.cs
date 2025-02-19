@@ -12,12 +12,10 @@ while (true)
     Console.ResetColor();
 
     name = Console.ReadLine();
-    if (!string.IsNullOrEmpty(name))
-    {
-        break;
-    }
+    if (!string.IsNullOrEmpty(name)) break;
 }
 
+// 서버에 연결하기 위한 URI 설정
 Console.WriteLine($"Connection to server...");
 await wss.ConnectAsync(new Uri($"wss://localhost:29014/wss?name={name}"), CancellationToken.None);
 Console.WriteLine("Connected");
@@ -56,10 +54,10 @@ var receiveTask = Task.Run(async () =>
         Console.WriteLine($"\u001b[35mReceived: \u001b[0m{message}");
     }
 });
+
 await Task.WhenAny(sendTask, receiveTask);
 
 if (wss.State == WebSocketState.Open)
-{
     await wss.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client closed", CancellationToken.None);
-}
+
 await Task.WhenAll(sendTask, receiveTask);

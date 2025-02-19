@@ -38,8 +38,8 @@ app.Map("/wss", async context =>
                 await Broadcast($"{name} Left the room");
                 await Broadcast($"Total connections: {connections.Count}");
 
-                var statue = result.CloseStatus != null ? result.CloseStatus.Value : WebSocketCloseStatus.NormalClosure;
-                await wss.CloseAsync(statue, result.CloseStatusDescription, CancellationToken.None);
+                var status = result.CloseStatus != null ? result.CloseStatus.Value : WebSocketCloseStatus.NormalClosure;
+                await wss.CloseAsync(status, result.CloseStatusDescription, CancellationToken.None);
             }
         });
     }
@@ -57,6 +57,42 @@ async Task ReceiveMessage(WebSocket socket, Action<WebSocketReceiveResult, byte[
     {
         var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
         handleMessage(result, buffer);
+    }
+}
+
+
+// 청크된 데이터를 받아서 처리하는 방법
+async Task ReceiveMessageWithCancellation(WebSocket socket, Action<WebSocketReceiveResult, byte[]> handleMessage, CancellationToken cancellationToken = default)
+{
+    var buffer = new byte[1024]; // 1024 바이트씩 받기 위한 버퍼
+    var receivedData = new List<byte>();
+
+    while (socket.State == WebSocketState.Open)
+    {
+        // 데이터 청크 수신
+        var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
+
+        if (result.MessageType == WebSocketMessageType.Close)
+        {
+            Console.WriteLine("WebSocket connection closed");
+            break;
+        }
+
+        // 수신된 데이터 청크를 리스트에 추가
+        receivedData.AddRange(buffer.Take(result.Count));
+
+        // 만약 마지막 데이터 청크인지 체크하는 방법은 WebSocketReceiveResult의 EndOfMessage 속성
+        if (result.EndOfMessage)
+        {
+            // 처리된 데이터 (배열로 변환하여 사용)
+            var finalData = receivedData.ToArray();
+
+            // 받은 데이터 처리
+            handleMessage(result, finalData);
+
+            // 리셋하여 다음 메시지를 받을 준비
+            receivedData.Clear();
+        }
     }
 }
 
