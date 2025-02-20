@@ -1,3 +1,5 @@
+using SignalRChat.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //*
@@ -29,5 +31,8 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
+
+
+app.MapHub<ChatHub>("/hub");
 
 app.Run();

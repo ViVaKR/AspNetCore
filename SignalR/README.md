@@ -16,4 +16,5 @@
  # TypeScript
  dotnet add package Microsoft.TypeScript.MSBuild
 
+npm i -D -E clean-webpack-plugin css-loader html-webpack-plugin mini-css-extract-plugin ts-loader typescript webpack webpack-cli
 ```
