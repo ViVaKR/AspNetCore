@@ -10,4 +10,10 @@
 
  dotnet add package Microsoft.AspNetCore.SignalR.Client
 
+ # JavaScript
+ libman install @microsoft/signalr@latest -p unpkg -d wwwroot/js/signalr --files dist/browser/signalr.js
+
+ # TypeScript
+ dotnet add package Microsoft.TypeScript.MSBuild
+
 ```
