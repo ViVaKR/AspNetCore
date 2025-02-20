@@ -38,8 +38,6 @@ var sendFileTask = Task.Run(async () =>
     while (true)
     {
         //? 메뉴선택 : 메시지 전송, 파일 전송, 종료
-        // Console.Write("(선택) \u001b[31m`\n1. Message`\u001b[0m, \u001b[31m`\n2. Sendfile`\u001b[0m, \u001b[31m`\n3. Exit`\u001b[0m >> ");
-
         SetMenu();
 
         //? 사용자로부터 메뉴 선택 입력 받기
@@ -51,7 +49,6 @@ var sendFileTask = Task.Run(async () =>
             case "sendfile": //--> 파일 전송 요청
                 Console.Write("전송할 파일 경로: ");
                 string? filePath = Console.ReadLine();
-
                 if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
                 {
                     Console.WriteLine("파일을 찾을 수 없습니다.");
@@ -64,12 +61,9 @@ var sendFileTask = Task.Run(async () =>
                     var buf = new byte[16 * 1024]; // 16KB 버퍼
                     int bytesRead;
                     long totalBytesSent = 0;
-
                     var fi = new FileInfo(filePath);
                     var fileSize = fi.Length;
-
                     Console.WriteLine($"파일전송개시: {filePath} (Size: {fileSize:N0} bytes)");
-
                     while ((bytesRead = await fileStream.ReadAsync(buf)) > 0)
                     {
                         var dataToSend = new ArraySegment<byte>(buf, 0, bytesRead);
