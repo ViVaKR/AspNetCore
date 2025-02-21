@@ -15,3 +15,12 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 -- create user vivabm with encrypted password 'Password'
 -- grant all privileges on database vivabm to vivabm;
 ```
+
+
+## MongoDb API
+
+```bash
+
+
+dotnet add package MongoDB.Driver
+```
