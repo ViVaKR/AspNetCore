@@ -1,6 +1,0 @@
-@Bible.API_HostAddress = http://localhost:55541
-
-GET http://localhost:55541/weatherforecast/
-Accept: application/json
-
-###
