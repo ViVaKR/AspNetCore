@@ -1,5 +1,7 @@
 # gRPC
 
+## Start
+
 ```bash
 $ dotnet new grpc -o GrpcGreeter
 
@@ -27,3 +29,15 @@ grpcui localhost:<port>
   </ItemGroup>
 
 ```
+
+## 형식
+
+- bool?, google.protobuf.BoolValue
+- double?, google.portobuf.DoubleValue
+- flat?, google.protobuf.FloatValue
+- int?, google.protobuf.Int32Value
+- logn?, google.protobuf.Int64Value
+- uint?, google.protobuf.UInt32Value
+- ulong?, google.protobuf.UInt64Value
+- string, google.protobuf.StringValue
+- ByteString, google.protobuf.BytesValue
