@@ -2,37 +2,34 @@
 
 @inject NavigationManager NavigationManager
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Buddha</a>
-    </div>
+<div class="container-fluid">
+    <a class="navbar-brand" href="">Buddha</a>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
+    <nav class="flex flex-col gap-4 p-4">
+
+        <div class="px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                Home
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+        <div class="px-3">
+            <NavLink class="nav-link" href="scalar/v1">
+                Scalar
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+        <div class="px-3">
+            <NavLink class="nav-link" href="chat">
+                Chat
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
+        <div class="px-3">
             <NavLink class="nav-link" href="auth">
-                <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
+                Auth Required
             </NavLink>
         </div>
 
@@ -40,9 +37,11 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>
+                        @context.User.Identity?.Name
                     </NavLink>
                 </div>
+
                 <div class="nav-item px-3">
                     <form action="Account/Logout" method="post">
                         <AntiforgeryToken />
@@ -53,15 +52,16 @@
                     </form>
                 </div>
             </Authorized>
+
             <NotAuthorized>
-                <div class="nav-item px-3">
+                <div class="px-3">
                     <NavLink class="nav-link" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
+                        Register
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
+                <div class="px-3">
                     <NavLink class="nav-link" href="Account/Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
+                        Login
                     </NavLink>
                 </div>
             </NotAuthorized>
@@ -89,4 +89,3 @@
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
 }
-

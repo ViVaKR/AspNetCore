@@ -1,13 +1,26 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Buddha.Client.Pages;
 using Buddha.Components;
 using Buddha.Components.Account;
 using Buddha.Data;
+using Buddha.Helpers;
+using Buddha.Hubs;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
+using _Imports = Buddha.Client._Imports;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+const string coresapp = "corsapp";
+
+builder.Services.AddOpenApi();
+builder.Services.AddSignalR();
+builder.WebHost.UseUrls("https://localhost:58263");
+
+builder.Services.AddCors(options => options.AddPolicy(coresapp,
+    policy => policy.WithOrigins(Helper.AllowOrigins()).AllowAnyMethod().AllowAnyMethod()));
+
+builder.Services.AddControllers();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
@@ -24,9 +37,9 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 builder.Services.AddAuthorization();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -38,30 +51,36 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
     app.UseMigrationsEndPoint();
+    // --> UI, https://localhost:58263/scalar/v1
+    // --> Json, https://localhost:58263/openapi/v1
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 else
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Error", true);
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+app.UseCors(coresapp);
 
+app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Buddha.Client._Imports).Assembly);
 
-// Add additional endpoints required by the Identity /Account Razor components.
+app.MapRazorComponents<App>().AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(_Imports).Assembly);
+
 app.MapAdditionalIdentityEndpoints();
+
+app.MapControllers();
+
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();
